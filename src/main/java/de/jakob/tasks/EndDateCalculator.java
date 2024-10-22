@@ -29,10 +29,10 @@ public class EndDateCalculator {
                 , 12);
 
         int year = readInt(String.format(PROMPT, "Jahreskomponente")
-                , 0);
+                , -1);
 
         int t = readInt("Bitte geben Sie die Anzahl an Tagen ein:"
-                , 0);
+                , -1);
 
         if (isInvalidDate(day, month, year, t)) {
             System.out.println("Dieses Datum kann nicht existieren. Starte das Program erneut!");
@@ -109,7 +109,7 @@ public class EndDateCalculator {
         if (scanner.hasNextInt()) {
             int i = scanner.nextInt();
             if (i > 0 &&
-                    (limit == 0 || i <= limit)) {
+                    (limit == -1 || i <= limit)) {
 
                 number = i;
             }
