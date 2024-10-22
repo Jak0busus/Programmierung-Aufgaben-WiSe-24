@@ -17,10 +17,10 @@ public class EndDateCalculator {
      * existiert oder t keine positive Zahl ist, so darf sich das Programm beliebig verhalten.
      */
 
-    private final static Scanner scanner = new Scanner(System.in);
-    private final static String PROMPT = "Bitte geben Sie die %s des Startdatums ein:";
+    private final Scanner scanner = new Scanner(System.in);
 
     public void prompt() {
+        String PROMPT = "Bitte geben Sie die %s des Startdatums ein:";
 
         int day = readInt(String.format(PROMPT, "Tageskomponente")
                 , 31);
