@@ -1,4 +1,4 @@
-package de.jakob;
+package de.jakob.util;
 
 import java.awt.GraphicsEnvironment;
 import java.util.Scanner;

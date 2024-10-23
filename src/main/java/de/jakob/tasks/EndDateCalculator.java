@@ -1,6 +1,6 @@
 package de.jakob.tasks;
 
-import de.jakob.SimpleIO;
+import de.jakob.util.SimpleIO;
 
 public class EndDateCalculator {
 
@@ -27,7 +27,7 @@ public class EndDateCalculator {
                 , 12);
 
         int year = readInt(String.format(prompt, "Jahreskomponente")
-                , -1);
+                , -1); //-1 stands for no limit
 
         int t = readInt("Bitte geben Sie die Anzahl an Tagen ein:"
                 , -1);
@@ -72,20 +72,18 @@ public class EndDateCalculator {
             }
         }
 
-        return days + "." + months + "." + years;
+        return days + "."
+                + months + "."
+                + years;
     }
 
     private boolean nextMonth(int day, int month) {
-        switch (month) {
-            case 1, 3, 5, 7, 8, 10, 12:
-                return day >= 31;
-            case 4, 6, 9, 11:
-                return day >= 30;
-            case 2:
-                return day >= 29;
-            default:
-                return true;
-        }
+        return switch (month) {
+            case 1, 3, 5, 7, 8, 10, 12 -> day >= 31;
+            case 4, 6, 9, 11 -> day >= 30;
+            case 2 -> day >= 28;
+            default -> true;
+        };
     }
 
     private boolean isInvalidDate(int day, int month, int year, int t) {
