@@ -2,8 +2,6 @@ package de.jakob.tasks;
 
 import de.jakob.SimpleIO;
 
-import java.util.Scanner;
-
 public class EndDateCalculator {
 
     /**
@@ -18,8 +16,6 @@ public class EndDateCalculator {
      * Berechnungen kann die Existenz von Schaltjahren vernachlässigt werden. Falls das eingegebene Startdatum nicht
      * existiert oder t keine positive Zahl ist, so darf sich das Programm beliebig verhalten.
      */
-
-    private final Scanner scanner = new Scanner(System.in);
 
     public void prompt() {
         String prompt = "Bitte geben Sie die %s des Startdatums ein:";
@@ -37,7 +33,7 @@ public class EndDateCalculator {
                 , -1);
 
         if (isInvalidDate(day, month, year, t)) {
-            SimpleIO.output("Dieses Datum kann nicht existieren. Starte das Program erneut!");
+            SimpleIO.output("Dieses Datum ist ungültig. Starte das Program erneut!");
             return;
         }
 
