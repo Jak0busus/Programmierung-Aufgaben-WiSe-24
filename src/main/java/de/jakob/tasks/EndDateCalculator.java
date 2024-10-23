@@ -1,12 +1,14 @@
 package de.jakob.tasks;
 
+import de.jakob.SimpleIO;
+
 import java.util.Scanner;
 
 public class EndDateCalculator {
 
     /**
-     *Implementieren Sie ein Programm, welches zu einem gegebenen Startdatum und einer gegebenen Anzahl t an
-     *Tagen ein Enddatum berechnet, sodass das Enddatum genau t Tage nach dem Startdatum liegt. Beispielsweise
+     * Implementieren Sie ein Programm, welches zu einem gegebenen Startdatum und einer gegebenen Anzahl t an
+     * Tagen ein Enddatum berechnet, sodass das Enddatum genau t Tage nach dem Startdatum liegt. Beispielsweise
      * liegt der 30.10.2024 genau einen Tag nach dem 29.10.2024. Die Berechnung soll mithilfe einer einzigen
      * geeigneten Schleife durchgeführt werden. Das Programm soll zudem weder break noch continue benutzen.
      * Verwenden Sie erneut die Klasse SimpleIO zum Einlesen und Ausgeben von Werten.
@@ -35,17 +37,17 @@ public class EndDateCalculator {
                 , -1);
 
         if (isInvalidDate(day, month, year, t)) {
-            System.out.println("Dieses Datum kann nicht existieren. Starte das Program erneut!");
+            SimpleIO.output("Dieses Datum kann nicht existieren. Starte das Program erneut!");
             return;
         }
 
         String date = calculate(day, month, year, t);
 
-        System.out.println("Das Datum "
+        SimpleIO.output("Das Datum "
                 + date
                 + " befindet sich "
                 + t
-                + " Tage nach dem Startdatum.\n");
+                + " Tage nach dem Startdatum.");
 
     }
 
@@ -59,16 +61,15 @@ public class EndDateCalculator {
 
         for (int i = 0; i < t; i++) {
 
-            if (nextYear(days, months)) {
-
-                years++;
-                months = 1;
-                days = 1;
-
-            } else if (nextMonth(days, months)) {
+            if (nextMonth(days, months)) {
 
                 months++;
                 days = 1;
+
+                if (months >= 13) {
+                    years++;
+                    months = 1;
+                }
 
             } else {
                 days++;
@@ -78,45 +79,36 @@ public class EndDateCalculator {
         return days + "." + months + "." + years;
     }
 
-    private boolean nextYear(int day, int month) {
-        return month == 12 && day >= 31;
-    }
-
     private boolean nextMonth(int day, int month) {
         switch (month) {
-            case 1, 3, 5, 7, 8, 10:
+            case 1, 3, 5, 7, 8, 10, 12:
                 return day >= 31;
             case 4, 6, 9, 11:
                 return day >= 30;
             case 2:
                 return day >= 29;
             default:
-                return false;
+                return true;
         }
     }
 
     private boolean isInvalidDate(int day, int month, int year, int t) {
         return nextMonth(day - 1, month)
-                || day == 0
-                || month == 0
-                || year == 0
-                || t == 0;
+                || day == -1
+                || month == -1
+                || year == -1
+                || t == -1;
     }
 
     private int readInt(String prompt, int limit) {
-        int number = 0;
+        int number = -1;
 
-        System.out.print(prompt + "\n");
+        int i = SimpleIO.getInt(prompt);
+        if (i > 0
+                && i < Integer.MAX_VALUE
+                && (limit == -1 || i <= limit)) {
 
-        if (scanner.hasNextInt()) {
-            int i = scanner.nextInt();
-            if (i > 0 &&
-                    (limit == -1 || i <= limit)) {
-
-                number = i;
-            }
-        } else {
-            scanner.next();
+            number = i;
         }
         return number;
     }
