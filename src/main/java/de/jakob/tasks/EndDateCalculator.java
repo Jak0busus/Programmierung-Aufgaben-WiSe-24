@@ -62,7 +62,7 @@ public class EndDateCalculator {
                 months++;
                 days = 1;
 
-                if (months >= 13) {
+                if (months > 12) {
                     years++;
                     months = 1;
                 }
