@@ -6,7 +6,7 @@ public class EndDateCalculator {
 
     /**
      *Implementieren Sie ein Programm, welches zu einem gegebenen Startdatum und einer gegebenen Anzahl t an
-     *Tagen ein Enddatum berechnet, sodass das Enddatum genau t Tage nach dem Startdatum liegt. Beispiels weise
+     *Tagen ein Enddatum berechnet, sodass das Enddatum genau t Tage nach dem Startdatum liegt. Beispielsweise
      * liegt der 30.10.2024 genau einen Tag nach dem 29.10.2024. Die Berechnung soll mithilfe einer einzigen
      * geeigneten Schleife durchgeführt werden. Das Programm soll zudem weder break noch continue benutzen.
      * Verwenden Sie erneut die Klasse SimpleIO zum Einlesen und Ausgeben von Werten.
@@ -20,15 +20,15 @@ public class EndDateCalculator {
     private final Scanner scanner = new Scanner(System.in);
 
     public void prompt() {
-        String PROMPT = "Bitte geben Sie die %s des Startdatums ein:";
+        String prompt = "Bitte geben Sie die %s des Startdatums ein:";
 
-        int day = readInt(String.format(PROMPT, "Tageskomponente")
+        int day = readInt(String.format(prompt, "Tageskomponente")
                 , 31);
 
-        int month = readInt(String.format(PROMPT, "Monatskomponente")
+        int month = readInt(String.format(prompt, "Monatskomponente")
                 , 12);
 
-        int year = readInt(String.format(PROMPT, "Jahreskomponente")
+        int year = readInt(String.format(prompt, "Jahreskomponente")
                 , -1);
 
         int t = readInt("Bitte geben Sie die Anzahl an Tagen ein:"
@@ -39,8 +39,10 @@ public class EndDateCalculator {
             return;
         }
 
+        String date = calculate(day, month, year, t);
+
         System.out.println("Das Datum "
-                + calculate(day, month, year, t)
+                + date
                 + " befindet sich "
                 + t
                 + " Tage nach dem Startdatum.\n");
