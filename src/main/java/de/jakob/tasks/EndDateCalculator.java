@@ -4,6 +4,10 @@ import de.jakob.util.SimpleIO;
 
 public class EndDateCalculator {
 
+    public static void main(String [] args){
+        new EndDateCalculator().prompt();
+    }
+
     /**
      * Implementieren Sie ein Programm, welches zu einem gegebenen Startdatum und einer gegebenen Anzahl t an
      * Tagen ein Enddatum berechnet, sodass das Enddatum genau t Tage nach dem Startdatum liegt. Beispielsweise
