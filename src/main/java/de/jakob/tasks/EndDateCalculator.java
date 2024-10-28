@@ -4,7 +4,7 @@ import de.jakob.util.SimpleIO;
 
 public class EndDateCalculator {
 
-    public static void main(String [] args){
+    public static void main(String[] args){
         new EndDateCalculator().prompt();
     }
 
@@ -26,13 +26,10 @@ public class EndDateCalculator {
 
         int day = readInt(String.format(prompt, "Tageskomponente")
                 , 31);
-
         int month = readInt(String.format(prompt, "Monatskomponente")
                 , 12);
-
         int year = readInt(String.format(prompt, "Jahreskomponente")
                 , -1); //-1 stands for no limit
-
         int t = readInt("Bitte geben Sie die Anzahl an Tagen ein:"
                 , -1);
 
@@ -42,13 +39,11 @@ public class EndDateCalculator {
         }
 
         String date = calculate(day, month, year, t);
-
         SimpleIO.output("Das Datum "
                 + date
                 + " befindet sich "
                 + t
                 + " Tage nach dem Startdatum.");
-
     }
 
     private String calculate(int d, int m, int y, int t) {
@@ -60,7 +55,6 @@ public class EndDateCalculator {
         int days = d;
 
         for (int i = 0; i < t; i++) {
-
             if (nextMonth(days, months)) {
 
                 months++;
@@ -70,12 +64,10 @@ public class EndDateCalculator {
                     years++;
                     months = 1;
                 }
-
             } else {
                 days++;
             }
         }
-
         return days + "."
                 + months + "."
                 + years;
