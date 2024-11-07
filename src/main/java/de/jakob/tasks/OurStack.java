@@ -18,7 +18,7 @@ public class OurStack {
         String operation;
 
         do {
-            //System.out.println(s.debug());
+            System.out.println(s.debug());
             operation = SimpleIO.getString(
                     "Bitte geben Sie eine Operation (PUSH,POP,CLEAR,SETSIZE,PRINT,STOP) ein:")
                     .toUpperCase()
