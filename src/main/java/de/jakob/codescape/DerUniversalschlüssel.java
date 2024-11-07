@@ -1,6 +1,6 @@
 package de.jakob.codescape;
 
-public class DerUniversalschlüssel {
+public class DerUniversalschlüssel extends DogBot {
 
     public void run(String[] keys) {
         // Dein Code hier:
@@ -39,13 +39,4 @@ public class DerUniversalschlüssel {
             }
         }
     }
-
-    private void move(){}
-    private void turnLeft(){}
-    private void turnRight(){}
-    private void write(String s){}
-    private String read(){return null;}
-    private void pickUp(){}
-    private boolean isMovePossible(){return true;}
-
 }

@@ -1,6 +1,6 @@
 package de.jakob.codescape;
 
-public class SoNahUndDochSoFern {
+public class SoNahUndDochSoFern extends DogBot{
 
     public void run() {
 
@@ -98,12 +98,4 @@ public class SoNahUndDochSoFern {
             }
         }
     }
-
-    private void move(){}
-    private void turnLeft(){}
-    private void turnRight(){}
-    private void write(String s){}
-    private String read(){return null;}
-    private void pickUp(){}
-
 }

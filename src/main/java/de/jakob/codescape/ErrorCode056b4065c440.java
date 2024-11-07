@@ -1,6 +1,6 @@
 package de.jakob.codescape;
 
-public class ErrorCode056b4065c440 {
+public class ErrorCode056b4065c440 extends DogBot{
 
     public void run() {
 
@@ -46,12 +46,4 @@ public class ErrorCode056b4065c440 {
             }
         }
     }
-
-    private void move(){}
-    private void turnLeft(){}
-    private void turnRight(){}
-    private void write(String s){}
-    private String read(){return null;}
-    private void pickUp(){}
-
 }
