@@ -42,18 +42,18 @@ public class DerRechteWeg extends DogBot{
     }
 
 
-    private void moveX(int steps){
-        for(int i = 0; i< steps; i++){
+    private void moveX(int steps) {
+        for (int i = 0; i < steps; i++) {
             move();
         }
     }
 
-    private void turnLeftX(int turns){
-        if(turns == 3){
+    private void turnLeftX(int turns) {
+        if (turns == 3) {
             turnRight();
         } else {
 
-            for(int i = 0; i< turns; i++){
+            for (int i = 0; i < turns; i++) {
                 turnLeft();
             }
         }
