@@ -21,37 +21,36 @@ public class Rectangle {
     /**
      * Constructs a rectangle with specified x and y coordinates and specified width and height.
      *
-     * @param x      The x-coordinate of the starting point.
-     * @param y      The y-coordinate of the starting point.
-     * @param width  The width of the rectangle.
-     * @param height The height of the rectangle.
+     * @param xInput      The x-coordinate of the starting point.
+     * @param yInput      The y-coordinate of the starting point.
+     * @param widthInput  The width of the rectangle.
+     * @param heightInput The height of the rectangle.
      */
-    public Rectangle(int x, int y, int width, int height) {
+    public Rectangle(int xInput, int yInput, int widthInput, int heightInput) {
 
-        if (!arePositive(width, height)) {
-            Utils.error(NEGATIVE_VALUE);
+        if (!arePositive(widthInput, heightInput)) {
             return;
         }
 
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
+        x = xInput;
+        y = yInput;
+        width = widthInput;
+        height = heightInput;
 
         //coordinates of the other corners
-        this.endX = x + width;
-        this.endY = y - height;
+        endX = xInput + widthInput;
+        endY = yInput - heightInput;
     }
 
     /**
      * Constructs a square with specified x and y coordinates and a single side length.
      *
-     * @param x               The x-coordinate of the starting point.
-     * @param y               The y-coordinate of the starting point.
+     * @param xInput          The x-coordinate of the starting point.
+     * @param yInput          The y-coordinate of the starting point.
      * @param sideLengthInput The length of each side of the square.
      */
-    public Rectangle(int x, int y, int sideLengthInput) {
-        this(x, y, sideLengthInput, sideLengthInput);
+    public Rectangle(int xInput, int yInput, int sideLengthInput) {
+        this(xInput, yInput, sideLengthInput, sideLengthInput);
     }
 
     /**
