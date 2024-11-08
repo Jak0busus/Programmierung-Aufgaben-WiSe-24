@@ -12,7 +12,7 @@ public class Main {
     public static void main(String[] args) {
 
         //Rectangle test = new Rectangle(0, 1, 1, 1);
-        output(Rectangle.intersection(new Rectangle(-10,10,100,100), new Rectangle(-5, -5, 5, 200)));
+        output(Rectangle.intersection(new Rectangle(-10,10,100,100), new Rectangle(-5, -5, 5, 200), new Rectangle(5,-5,5,5)));
         //new PromptCalc().prompt();
         //new EndDateCalculator().prompt();
     }
