@@ -31,13 +31,13 @@ public class SoNahUndDochSoFern extends DogBot{
 
     private int lastRoom = 0;
 
-    private String[] decision = {"0", "1", "1", "1", "1", "1"};
+    private String[] decision = {"L", "R", "R", "R", "R", "R"};
 
     private void goBack(){
 
         for(int i = 5; i > 1; i--){
 
-            goX(decision[i-1].equals("1") ? "0" : "1");
+            goX(decision[i-1].equals("R") ? "L" : "R");
 
         }
     }
@@ -56,7 +56,7 @@ public class SoNahUndDochSoFern extends DogBot{
             lastRoom ++;
         } else {
             //if the last room had wrong decision
-            decision[lastRoom - 1] = "0";
+            decision[lastRoom - 1] = "L";
             goX(decision[currentRoom - 1]);
 
         }
@@ -85,7 +85,7 @@ public class SoNahUndDochSoFern extends DogBot{
 
     private void goX(String direction){
         switch (direction) {
-            case "1" -> {
+            case "R" -> {
                 turnLeftX(3);
                 moveX(1);
                 turnLeftX(1);
