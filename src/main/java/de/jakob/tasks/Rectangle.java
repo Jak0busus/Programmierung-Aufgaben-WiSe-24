@@ -9,9 +9,14 @@ import de.jakob.util.Utils;
  */
 public class Rectangle {
 
-    private int x, y, width, height, endX, endY;
+    private int x;
+    private int y;
+    private int width;
+    private int height;
+    private int endX;
+    private int endY;
 
-    private final String error = "Please enter positive values for these dimensions!";
+    private static final String NEGATIVE_VALUE = "Please enter positive values for these dimensions!";
 
     /**
      * Constructs a rectangle with specified x and y coordinates and specified width and height.
@@ -24,7 +29,7 @@ public class Rectangle {
     public Rectangle(int x, int y, int width, int height) {
 
         if (!arePositive(width, height)) {
-            Utils.error(error);
+            Utils.error(NEGATIVE_VALUE);
             return;
         }
 
@@ -48,7 +53,7 @@ public class Rectangle {
     public Rectangle(int x, int y, int sideLengthInput) {
 
         if (!arePositive(sideLengthInput)) {
-            Utils.error(error);
+            Utils.error(NEGATIVE_VALUE);
             return;
         }
 
@@ -82,7 +87,7 @@ public class Rectangle {
      */
     public static Rectangle intersection(Rectangle... rectangles) {
 
-        if (rectangles == null) return null;
+        if (rectangles.length == 0) return null;
 
         int length = rectangles.length;
 
@@ -121,7 +126,7 @@ public class Rectangle {
      * @param toCopy The rectangle to copy.
      * @return A new Rectangle instance with the same properties as the specified rectangle.
      */
-    public Rectangle copy(Rectangle toCopy) {
+    public static Rectangle copy(Rectangle toCopy) {
         return new Rectangle(toCopy.x,
                 toCopy.y,
                 toCopy.width,
@@ -140,13 +145,13 @@ public class Rectangle {
     /**
      * Returns a string representation of the rectangle.
      *
-     * @return A string describing the coordinates of the rectangle's corners in the format "(x1|y1) (x2|y1) (x2|y2) (x1|y2)".
+     * @return A string describing the coordinates of the rectangle's corners in the format "(x1|y1),(x1|y2),(x2|y2),(x2|y1)".
      */
     public String toString() {
-        return "(" + x + "|" + y + ") " +
-                "(" + endX + "|" + y + ") " +
-                "(" + endX + "|" + endY + ") " +
-                "(" + x + "|" + endY + ")";
+        return "(" + x + "|" + y + ")," +
+                "(" + x + "|" + endY + ")," +
+                "(" + endX + "|" + endY + ")," +
+                "(" + endX + "|" + y + ")";
     }
 
     /**
@@ -230,7 +235,7 @@ public class Rectangle {
     private boolean arePositive(int... input) {
         for (int i : input) {
             if (i < 0) {
-                Utils.error(error);
+                Utils.error(NEGATIVE_VALUE);
                 return false;
             }
         }
