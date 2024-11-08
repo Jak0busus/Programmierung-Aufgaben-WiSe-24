@@ -13,17 +13,17 @@ public class Rectangle {
     private int y;
     private int width;
     private int height;
-    private int endX;
-    private int endY;
+    private int endX; //stands for the last x coordinate of the rectangle
+    private int endY; //similar to endX but for the lowest y coordinate
 
     private static final String NEGATIVE_VALUE = "Please enter positive values for these dimensions!";
 
     /**
      * Constructs a rectangle with specified x and y coordinates and specified width and height.
      *
-     * @param x The x-coordinate of the starting point.
-     * @param y The y-coordinate of the starting point.
-     * @param width The width of the rectangle.
+     * @param x      The x-coordinate of the starting point.
+     * @param y      The y-coordinate of the starting point.
+     * @param width  The width of the rectangle.
      * @param height The height of the rectangle.
      */
     public Rectangle(int x, int y, int width, int height) {
@@ -46,24 +46,12 @@ public class Rectangle {
     /**
      * Constructs a square with specified x and y coordinates and a single side length.
      *
-     * @param x The x-coordinate of the starting point.
-     * @param y The y-coordinate of the starting point.
+     * @param x               The x-coordinate of the starting point.
+     * @param y               The y-coordinate of the starting point.
      * @param sideLengthInput The length of each side of the square.
      */
     public Rectangle(int x, int y, int sideLengthInput) {
-
-        if (!arePositive(sideLengthInput)) {
-            Utils.error(NEGATIVE_VALUE);
-            return;
-        }
-
-        this.x = x;
-        this.y = y;
-        this.width = sideLengthInput;
-        this.height = sideLengthInput;
-
-        this.endX = x + sideLengthInput;
-        this.endY = y - sideLengthInput;
+        this(x, y, sideLengthInput, sideLengthInput);
     }
 
     /**
@@ -93,8 +81,8 @@ public class Rectangle {
 
         int[] xArray = new int[length];
         int[] yArray = new int[length];
-        int[] widthArray = new int[length];
-        int[] heightArray = new int[length];
+        int[] endXArray = new int[length]; //
+        int[] endYArray = new int[length];
 
         for (int i = 0; i < length; i++) {
 
@@ -102,20 +90,20 @@ public class Rectangle {
 
             xArray[i] = rectangle.x;
             yArray[i] = rectangle.y;
-            widthArray[i] = rectangle.endX;
-            heightArray[i] = rectangle.endY;
+            endXArray[i] = rectangle.endX;
+            endYArray[i] = rectangle.endY;
 
-            if(!rectangle.doesIntersect(rectangles)) return null; //check for every rectangle if they intersect
+            if (!rectangle.doesIntersect(rectangles)) return null; //check for every rectangle if they intersect
         }
 
         int minY = Utils.min(yArray);
         int maxX = Utils.max(xArray);
 
         int width = (int) Utils.dist(maxX, 0,
-                Utils.min(widthArray), 0);
+                Utils.min(endXArray), 0);
         int height = (int) Utils.dist(0,
                 minY, 0,
-                Utils.max(heightArray));
+                Utils.max(endYArray));
 
         return new Rectangle(maxX, minY, width, height);
     }
@@ -170,6 +158,7 @@ public class Rectangle {
      */
     public void setX(int x) {
         this.x = x;
+        this.endX = x + width;
     }
 
     /**
@@ -188,6 +177,7 @@ public class Rectangle {
      */
     public void setY(int y) {
         this.y = y;
+        this.endY = y - height;
     }
 
     /**
@@ -209,6 +199,7 @@ public class Rectangle {
             return;
         }
         this.width = width;
+        this.endX = x + width;
     }
 
     /**
@@ -230,6 +221,7 @@ public class Rectangle {
             return;
         }
         this.height = height;
+        this.endY = y - height;
     }
 
     private boolean arePositive(int... input) {
@@ -242,7 +234,7 @@ public class Rectangle {
         return true;
     }
 
-    private boolean doesIntersect(Rectangle... rectangles){
+    private boolean doesIntersect(Rectangle... rectangles) {
         for (Rectangle comparison : rectangles) {
 
             if (comparison.endX < x
