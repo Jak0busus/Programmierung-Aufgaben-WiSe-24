@@ -1,4 +1,4 @@
-package de.jakob.tasks;
+package de.jakob.tasks.records;
 
 import de.jakob.util.Utils;
 
@@ -7,14 +7,13 @@ import de.jakob.util.Utils;
  * Provides utility methods for calculating area, copying, checking square properties,
  * and finding intersections between rectangles.
  */
-public class Rectangle {
-
-    private int x;
-    private int y;
-    private int width;
-    private int height;
-    private int endX; //stands for the last x coordinate of the rectangle
-    private int endY; //similar to endX but for the lowest y coordinate
+public record Rectangle(
+        int x,
+        int y,
+        int width,
+        int height,
+        int endX,
+        int endY) {
 
     private static final String NEGATIVE_VALUE = "Please enter positive values for these dimensions!";
 
@@ -26,31 +25,23 @@ public class Rectangle {
      * @param widthInput  The width of the rectangle.
      * @param heightInput The height of the rectangle.
      */
+
+    //wouldn't normally need a constructor because it is a record, but it allows automatically
+    // calculating endX and endY to avoid code duplication
+
     public Rectangle(int xInput, int yInput, int widthInput, int heightInput) {
+        this(
+                xInput,
+                yInput,
+                widthInput,
+                heightInput,
+                xInput + widthInput,
+                yInput - heightInput
+        );
 
         if (!arePositive(widthInput, heightInput)) {
             //could terminate but code works with negative values too
         }
-
-        x = xInput;
-        y = yInput;
-        width = widthInput;
-        height = heightInput;
-
-        //coordinates of the other corners
-        endX = xInput + widthInput;
-        endY = yInput - heightInput;
-    }
-
-    /**
-     * Constructs a square with specified x and y coordinates and a single side length.
-     *
-     * @param xInput          The x-coordinate of the starting point.
-     * @param yInput          The y-coordinate of the starting point.
-     * @param sideLengthInput The length of each side of the square.
-     */
-    public Rectangle(int xInput, int yInput, int sideLengthInput) {
-        this(xInput, yInput, sideLengthInput, sideLengthInput);
     }
 
     /**
@@ -80,7 +71,7 @@ public class Rectangle {
 
         int[] xArray = new int[length];
         int[] yArray = new int[length];
-        int[] endXArray = new int[length]; //
+        int[] endXArray = new int[length];
         int[] endYArray = new int[length];
 
         for (int i = 0; i < length; i++) {
@@ -141,88 +132,6 @@ public class Rectangle {
                 "(" + endX + "|" + y + ")";
     }
 
-    /**
-     * Gets the x-coordinate of the rectangle.
-     *
-     * @return The x-coordinate.
-     */
-    public int getX() {
-        return x;
-    }
-
-    /**
-     * Sets the x-coordinate of the rectangle.
-     *
-     * @param x The x-coordinate to set.
-     */
-    public void setX(int x) {
-        this.x = x;
-        this.endX = x + width;
-    }
-
-    /**
-     * Gets the y-coordinate of the rectangle.
-     *
-     * @return The y-coordinate.
-     */
-    public int getY() {
-        return y;
-    }
-
-    /**
-     * Sets the y-coordinate of the rectangle.
-     *
-     * @param y The y-coordinate to set.
-     */
-    public void setY(int y) {
-        this.y = y;
-        this.endY = y - height;
-    }
-
-    /**
-     * Gets the width of the rectangle.
-     *
-     * @return The width of the rectangle.
-     */
-    public int getWidth() {
-        return width;
-    }
-
-    /**
-     * Sets the width of the rectangle. Only positive values are accepted.
-     *
-     * @param width The width to set.
-     */
-    public void setWidth(int width) {
-        if (!arePositive(width)) {
-            return;
-        }
-        this.width = width;
-        this.endX = x + width;
-    }
-
-    /**
-     * Gets the height of the rectangle.
-     *
-     * @return The height of the rectangle.
-     */
-    public int getHeight() {
-        return height;
-    }
-
-    /**
-     * Sets the height of the rectangle. Only positive values are accepted.
-     *
-     * @param height The height to set.
-     */
-    public void setHeight(int height) {
-        if (!arePositive(height)) {
-            return;
-        }
-        this.height = height;
-        this.endY = y - height;
-    }
-
     private boolean arePositive(int... input) {
         for (int i : input) {
             if (i < 0) {
@@ -243,3 +152,4 @@ public class Rectangle {
     }
 
 }
+
