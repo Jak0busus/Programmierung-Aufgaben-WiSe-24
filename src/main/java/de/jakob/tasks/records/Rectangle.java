@@ -11,36 +11,14 @@ public record Rectangle(
         int x,
         int y,
         int width,
-        int height,
-        int endX,
-        int endY) {
+        int height) { //didn't name them xInput, yInput ... because getting the values with Rectangle.widthInput() seems unlogical
 
     private static final String NEGATIVE_VALUE = "Please enter positive values for these dimensions!";
 
-    /**
-     * Constructs a rectangle with specified x and y coordinates and specified width and height.
-     *
-     * @param xInput      The x-coordinate of the starting point.
-     * @param yInput      The y-coordinate of the starting point.
-     * @param widthInput  The width of the rectangle.
-     * @param heightInput The height of the rectangle.
-     */
-
-    //wouldn't normally need a constructor because it is a record, but it allows automatically
-    // calculating endX and endY to avoid code duplication
-
-    public Rectangle(int xInput, int yInput, int widthInput, int heightInput) {
-        this(
-                xInput,
-                yInput,
-                widthInput,
-                heightInput,
-                xInput + widthInput,
-                yInput - heightInput
-        );
-
-        if (!arePositive(widthInput, heightInput)) {
-            //could terminate but code works with negative values too
+    //records purpose already documented
+    public Rectangle {
+        if (!arePositive(width, height)) { //arePositive throws error message if negative
+            //could terminate but code works with negative values too, theoretically
         }
     }
 
@@ -80,8 +58,9 @@ public record Rectangle(
 
             xArray[i] = rectangle.x;
             yArray[i] = rectangle.y;
-            endXArray[i] = rectangle.endX;
-            endYArray[i] = rectangle.endY;
+            //coordinates of the other corners
+            endXArray[i] = rectangle.x + rectangle.width;
+            endYArray[i] = rectangle.y - rectangle.height;
 
             if (!rectangle.doesIntersect(rectangles)) return null; //check for every rectangle if they intersect
         }
@@ -126,6 +105,8 @@ public record Rectangle(
      * @return A string describing the coordinates of the rectangle's corners in the format "(x1|y1),(x1|y2),(x2|y2),(x2|y1)".
      */
     public String toString() {
+        int endY = y - height;
+        int endX = x + width;
         return "(" + x + "|" + y + ")," +
                 "(" + x + "|" + endY + ")," +
                 "(" + endX + "|" + endY + ")," +
@@ -144,8 +125,8 @@ public record Rectangle(
 
     private boolean doesIntersect(Rectangle... rectangles) {
         for (Rectangle comparison : rectangles) {
-            if (comparison.endX < x
-                    || comparison.endY > y)
+            if (comparison.x + comparison.width < x
+                    || comparison.y - comparison.height > y)
                 return false;
         }
         return true;

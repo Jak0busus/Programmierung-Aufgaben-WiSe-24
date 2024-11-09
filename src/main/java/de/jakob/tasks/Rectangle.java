@@ -28,8 +28,8 @@ public class Rectangle {
      */
     public Rectangle(int xInput, int yInput, int widthInput, int heightInput) {
 
-        if (!arePositive(widthInput, heightInput)) {
-            //could terminate but code works with negative values too
+        if (!arePositive(widthInput, heightInput)) { //arePositive throws error message if negative
+            //could terminate but code works with negative values too, theoretically
         }
 
         x = xInput;
