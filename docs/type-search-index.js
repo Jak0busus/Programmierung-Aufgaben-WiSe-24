@@ -1,1 +1,1 @@
-typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"de.jakob.tasks","l":"Rectangle"},{"p":"de.jakob.util","l":"Utils"}];updateSearchResults();
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"de.jakob.tasks","l":"Rectangle"},{"p":"de.jakob.tasks.records","l":"Rectangle"},{"p":"de.jakob.util","l":"Utils"}];updateSearchResults();

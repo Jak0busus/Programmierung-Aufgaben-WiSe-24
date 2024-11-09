@@ -13,6 +13,7 @@ public class Rectangle {
     private int y;
     private int width;
     private int height;
+    //adding endX endY to avoid code redundancy
     private int endX; //stands for the last x coordinate of the rectangle
     private int endY; //similar to endX but for the lowest y coordinate
 
