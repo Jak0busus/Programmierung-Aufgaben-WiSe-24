@@ -43,38 +43,30 @@ public record Rectangle(
      */
     public static Rectangle intersection(Rectangle... rectangles) {
 
-        if (rectangles.length == 0) return null;
+            if (rectangles.length == 0) return null;
 
-        int length = rectangles.length;
+            int length = rectangles.length;
 
-        int[] xArray = new int[length];
-        int[] yArray = new int[length];
-        int[] endXArray = new int[length];
-        int[] endYArray = new int[length];
+            int minX = rectangles[0].x;
+            int maxY = rectangles[0].y;
+            int maxX = minX + rectangles[0].width;
+            int minY = maxY - rectangles[0].height;
 
-        for (int i = 0; i < length; i++) {
+            for (int i = 1; i < length; i++) {
+                Rectangle rectangle = rectangles[i];
 
-            Rectangle rectangle = rectangles[i];
+                minX = Utils.max(minX, rectangle.x);
+                minY = Utils.max(minY, rectangle.y - rectangle.height);
+                maxX = Utils.min(maxX, rectangle.x + rectangle.width);
+                maxY = Utils.min(maxY, rectangle.y);
 
-            xArray[i] = rectangle.x;
-            yArray[i] = rectangle.y;
-            //coordinates of the other corners
-            endXArray[i] = rectangle.x + rectangle.width;
-            endYArray[i] = rectangle.y - rectangle.height;
+                if (minX >= maxX || minY >= maxY) return null;
+            }
 
-            if (!rectangle.doesIntersect(rectangles)) return null; //check for every rectangle if they intersect
-        }
+            int width = (int) Utils.dist(minX, 0, maxX, 0);
+            int height = (int) Utils.dist(0, minY, 0 , maxY);
 
-        int minY = Utils.min(yArray);
-        int maxX = Utils.max(xArray);
-
-        int width = (int) Utils.dist(maxX, 0,
-                Utils.min(endXArray), 0);
-        int height = (int) Utils.dist(0,
-                minY, 0,
-                Utils.max(endYArray));
-
-        return new Rectangle(maxX, minY, width, height);
+            return new Rectangle(minX, maxY, width, height);
     }
 
     /**

@@ -79,33 +79,26 @@ public class Rectangle {
 
         int length = rectangles.length;
 
-        int[] xArray = new int[length];
-        int[] yArray = new int[length];
-        int[] endXArray = new int[length]; //
-        int[] endYArray = new int[length];
+        int minX = rectangles[0].x;
+        int maxY = rectangles[0].y;
+        int maxX = rectangles[0].endX;
+        int minY = rectangles[0].endY;
 
-        for (int i = 0; i < length; i++) {
-
+        for (int i = 1; i < length; i++) {
             Rectangle rectangle = rectangles[i];
 
-            xArray[i] = rectangle.x;
-            yArray[i] = rectangle.y;
-            endXArray[i] = rectangle.endX;
-            endYArray[i] = rectangle.endY;
+            minX = Utils.max(minX, rectangle.x);
+            minY = Utils.max(minY, rectangle.endY);
+            maxX = Utils.min(maxX, rectangle.endX);
+            maxY = Utils.min(maxY, rectangle.y);
 
-            if (!rectangle.doesIntersect(rectangles)) return null; //check for every rectangle if they intersect
+            if (minX >= maxX || minY >= maxY) return null;
         }
 
-        int minY = Utils.min(yArray);
-        int maxX = Utils.max(xArray);
+        int width = (int) Utils.dist(minX, 0, maxX, 0);
+        int height = (int) Utils.dist(0, minY, 0 , maxY);
 
-        int width = (int) Utils.dist(maxX, 0,
-                Utils.min(endXArray), 0);
-        int height = (int) Utils.dist(0,
-                minY, 0,
-                Utils.max(endYArray));
-
-        return new Rectangle(maxX, minY, width, height);
+        return new Rectangle(minX, maxY, width, height);
     }
 
     /**
