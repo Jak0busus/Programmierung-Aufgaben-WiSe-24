@@ -115,14 +115,5 @@ public record Rectangle(
         return true;
     }
 
-    private boolean doesIntersect(Rectangle... rectangles) {
-        for (Rectangle comparison : rectangles) {
-            if (comparison.x + comparison.width < x
-                    || comparison.y - comparison.height > y)
-                return false;
-        }
-        return true;
-    }
-
 }
 

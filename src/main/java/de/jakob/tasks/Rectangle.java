@@ -27,6 +27,7 @@ public class Rectangle {
      * @param widthInput  The width of the rectangle.
      * @param heightInput The height of the rectangle.
      */
+
     public Rectangle(int xInput, int yInput, int widthInput, int heightInput) {
 
         if (!arePositive(widthInput, heightInput)) { //arePositive throws error message if negative
@@ -223,15 +224,6 @@ public class Rectangle {
                 Utils.error(NEGATIVE_VALUE);
                 return false;
             }
-        }
-        return true;
-    }
-
-    private boolean doesIntersect(Rectangle... rectangles) {
-        for (Rectangle comparison : rectangles) {
-            if (comparison.endX < x
-                    || comparison.endY > y)
-                return false;
         }
         return true;
     }
