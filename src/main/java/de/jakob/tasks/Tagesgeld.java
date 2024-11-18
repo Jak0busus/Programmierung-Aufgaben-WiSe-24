@@ -59,13 +59,8 @@ public class Tagesgeld {
     //  und dies nicht dem Nutzer ueberlassen.
     //Die Methode ist nicht statisch, denn sie hat mit dem Angebot eines konkreten Tagesgeld-Objekts zu tun
     private double monatsverzinsung(double init, boolean angebot) {
-        // System.out.println("Monatsverzinsung " + init + " " + angebot);
         double jz = angebot ? this.angebotszinsen : this.normalzinsen;
         double mz = jahresZuMonatszins(jz);
-        //System.out.println(jz + " -> " + mz);
-        //System.out.println("1(" + (5000 * (1.0 + 0.2870898719076642 / 100.0)) + ")");
-        //x = x + 5000.0 * (jahresZuMonatszins(3.5 / 100));
-
         return init * (1.0 + mz / 100);
     }
 
@@ -94,6 +89,14 @@ public class Tagesgeld {
         return optimaleVerzinsung(init, nm, nm + angebotsmonate);
     }
 
+    //Die Reihenfolge in der die verschiedenen Zinssätze angewendet werden macht mathematisch
+    //  betrachtet keinen Unterschied, da das Ergebnis der Multiplikation der Zinssätze unabhängig
+    //  von der Reihenfolge immer zum gleichen Ergebnis führt. Multiplikation ist nähmlich kommutativ.
+    //Die geringen Unterschiede, die sich bei der Berechnung dieser Werte innerhalb
+    //  des Programs auftreten, lassen sich darauf zurückführen wie der Computer und der Compiler mit Gleitkommazahlen umgehen.
+    //Dezimalzahlen können dort nur mit begrenzter Genauigkeit verarbeitet werden,
+    //  weshalb durch unterschiedliche Rundungen unterschiedliche Ergebnisse zustande kommen.
+
     //Diese Hilfsmethode ist private, da sie nur von der obigen Methode gleichen Namens aufgerufen
     //  werden soll. Sie ist jedoch ebenfalls nicht statisch, da sie sich auf Instanzvariablen wie
     //  angebotsmonate bezieht.
@@ -104,27 +107,29 @@ public class Tagesgeld {
         return monatsverzinsung(vorher, nm + angebotsmonate > monate);
     }
 
-
+    //Diese Methode ist public, da wir von außerhalb der Klasse Tagesgeld mehrere Angebote parallel
+    //  für eine gegebene Laufzeit verzinsen können wollen.
+    // Sie ist statisch, da sie keine Instanzvariablen benötigt und mehrere Tagesgeld-Objekte
+    //  verarbeitet, die als Parameter übergeben werden.
     public static double verzinseParallel(double init, int monate, Tagesgeld... ts) {
-        return verzinseParallel(init, 0, monate, ts, 0);
+        return verzinseParallel(init, monate, ts, 0);
     }
 
-    private static double verzinseParallel(double remainingMoney, double interestAmount, int monate, Tagesgeld[] ts, int pos) {
-        if (monate == 0 || pos == ts.length) return interestAmount + remainingMoney;
+    //Diese Hilfsmethode ist private, da sie nur innerhalb der Klasse genutzt wird.
+    // Sie ist statisch, da sie keine Instanzvariablen benötigt und mehrere Tagesgeld-Objekte
+    //  verarbeitet, die als Parameter übergeben werden.
+    private static double verzinseParallel(double init, int monate, Tagesgeld[] ts, int pos) {
+        if (monate == 0 || pos == ts.length) return init;
 
         Tagesgeld tg = ts[pos];
 
-        if(tg.angebotsmonate <= 0) return verzinseParallel(remainingMoney, interestAmount, monate, ts, pos + 1);
+        if (tg.angebotsmonate <= 0) return verzinseParallel(init, monate, ts, pos + 1);
 
-        if (remainingMoney > 0 && monate > 0) {
-            double zuVerzinsen = Math.min(100000, Math.min(remainingMoney, tg.maxBetrag));
-            remainingMoney -= zuVerzinsen;
-            interestAmount += tg.verzinse(zuVerzinsen, monate);
-        }
+        double zuVerzinsen = Math.min(100000, Math.min(init, tg.maxBetrag));
+        init -= zuVerzinsen;
 
-        return verzinseParallel(remainingMoney, interestAmount, monate, ts, pos + 1);
+        return tg.verzinse(zuVerzinsen, monate) + verzinseParallel(init, monate, ts, pos + 1);
     }
-
 
     //Diese Methode ist public, da wir von außerhalb der Klasse Tagesgeld die kürzeste Laufzeit
     //  eines Tagesgeld-Angebots ermitteln oder die Laufzeit entsprechend anpassen können wollen.
@@ -132,9 +137,7 @@ public class Tagesgeld {
     //  sondern mehrere Tagesgeld-Objekte verarbeitet.
     public static int verkuerzeUmKuerzesteLaufzeit(boolean verkuerze, Tagesgeld... ts) {
         if (ts == null) return Integer.MAX_VALUE;
-
         int smallest = verkuerzeUmKuerzesteLaufzeit(false, 0, Integer.MAX_VALUE, ts);
-
         if (verkuerze) verkuerzeUmKuerzesteLaufzeit(true, 0, smallest, ts);
 
         return smallest;
@@ -146,11 +149,9 @@ public class Tagesgeld {
     private static int verkuerzeUmKuerzesteLaufzeit(boolean verkuerze, int pos, int smallest, Tagesgeld[] ts) {
         if (pos == ts.length) return smallest;
 
-        smallest = Math.min(smallest, ts[pos].angebotsmonate);
+        if (ts[pos].angebotsmonate > 0) smallest = Math.min(smallest, ts[pos].angebotsmonate);
 
-        if (verkuerze) {
-            ts[pos].angebotsmonate = Math.max(0, ts[pos].angebotsmonate - smallest);
-        }
+        if (verkuerze) ts[pos].angebotsmonate = Math.max(0, ts[pos].angebotsmonate - smallest);
 
         return verkuerzeUmKuerzesteLaufzeit(verkuerze, pos + 1, smallest, ts);
     }
@@ -181,10 +182,31 @@ public class Tagesgeld {
     }
 
     public static void main(String... args) {
+        //check for a
+        Tagesgeld t = new Tagesgeld(50000, 1, 5.5, 1.5);
+
+        System.out.println(10057.187381927695 + " (expected)");
+        System.out.println(t.optimaleVerzinsung(10000, 1) + " (Erklärung befindet sich unter der Methode)");
+
+        System.out.println();
+
+        //check for b
+        Tagesgeld t1 = new Tagesgeld(50000, 3, 5.5, 1.5);
+        Tagesgeld t2 = new Tagesgeld(50000, 0, 5.5, 1.5);
+        Tagesgeld t3 = new Tagesgeld(50000, 1, 5.5, 1.5);
+
+        System.out.println(1 + " (expected)");
+        System.out.println(verkuerzeUmKuerzesteLaufzeit(true, t1, t2, t3));
+        System.out.println("2, 0, 0 (expected)");
+        System.out.println(t1.getAngebotsmonate() + "," + t2.getAngebotsmonate() + "," + t3.getAngebotsmonate());
+
+        System.out.println();
+
+        //check for c
         Tagesgeld t0 = new Tagesgeld(5000, 9, 3.5, 1.5);
-        Tagesgeld t1 = new Tagesgeld(50000, 6, 3.0, 2.0);
-        Tagesgeld t2 = new Tagesgeld(150000, 5, 4.5, 1.75);
-        Tagesgeld t3 = new Tagesgeld(60000, 8, 3.5, 1.25);
+        t1 = new Tagesgeld(50000, 6, 3.0, 2.0);
+        t2 = new Tagesgeld(150000, 5, 4.5, 1.75);
+        t3 = new Tagesgeld(60000, 8, 3.5, 1.25);
 
         System.out.println(10080.148839674815 + " (expected)");
         System.out.println(verzinseParallel(10000, 3, t0, t1, t2, t3));
@@ -192,111 +214,35 @@ public class Tagesgeld {
         System.out.println(verzinseParallel(10000, 6, t0, t1, t2, t3));
         System.out.println(10272.751782132696 + " (expected)");
         System.out.println(verzinseParallel(10000, 12, t0, t1, t2, t3));
-        
-
 
         System.out.println();
 
         System.out.println(100910.9285190934 + " (expected)");
         System.out.println(verzinseParallel(100000, 3, t0, t1, t2, t3));
-        
-
         System.out.println(101725.24878187178 + " (expected)");
         System.out.println(verzinseParallel(100000, 6, t0, t1, t2, t3));
-        
-
         System.out.println(102682.28545476876 + " (expected)");
         System.out.println(verzinseParallel(100000, 12, t0, t1, t2, t3));
-        
-
 
         System.out.println();
 
         System.out.println(252032.2085361965 + " (expected)");
         System.out.println(verzinseParallel(250000, 3, t0, t1, t2, t3));
-        
-
         System.out.println(253841.61267414704 + " (expected)");
         System.out.println(verzinseParallel(250000, 6, t0, t1, t2, t3));
-        
-
         System.out.println(255859.91900185865 + " (expected)");
         System.out.println(verzinseParallel(250000, 12, t0, t1, t2, t3));
-        
 
 
         System.out.println();
 
         System.out.println(1002032.2085361965 + " (expected)");
         System.out.println(verzinseParallel(1000000, 3, t0, t1, t2, t3));
-        
-
         System.out.println(1003841.6126741471 + " (expected)");
         System.out.println(verzinseParallel(1000000, 6, t0, t1, t2, t3));
-        
-
         System.out.println(1005859.9190018587 + " (expected)");
         System.out.println(verzinseParallel(1000000, 12, t0, t1, t2, t3));
-        
 
     }
-
-
-    public static void test() {
-
-        double i = 10000.0;
-        double x = 10000.0 - 5000.0;
-        i = 10000.0 - 5000.0;
-        double y = i;
-
-        System.out.println("t0: " + x);
-        System.out.println("t1: " + y);
-
-        for (int n = 0; n < 3; n++) {
-
-            System.out.println(jahresZuMonatszins(3.0) + " / " + jahresZuMonatszins(3.5));
-            System.out.println("x " + x);
-            x = x + 5000.0 * (jahresZuMonatszins(3.5 / 100));
-            System.out.println(" -> " + x);
-            System.out.println("y " + y);
-            y = y * (1 + jahresZuMonatszins(3.0) / 100);
-            System.out.println(" -> " + y);
-
-        }
-
-        i = x + y;
-        System.out.println("--> " + i);
-
-    }
-
-//    public static void main(String... args) {
-
-
-//        System.out.println();
-//
-//        System.out.println(100910.9285190934 + " (expected)");
-//        System.out.println(verzinseParallel(100000,3,t0,t1,t2,t3));
-//        System.out.println(101725.24878187178 + " (expected)");
-//        System.out.println(verzinseParallel(100000,6,t0,t1,t2,t3));
-//        System.out.println(102682.28545476876 + " (expected)");
-//        System.out.println(verzinseParallel(100000,12,t0,t1,t2,t3));
-//
-//        System.out.println();
-//
-//        System.out.println(252032.2085361965 + " (expected)");
-//        System.out.println(verzinseParallel(250000,3,t0,t1,t2,t3));
-//        System.out.println(253841.61267414704 + " (expected)");
-//        System.out.println(verzinseParallel(250000,6,t0,t1,t2,t3));
-//        System.out.println(255859.91900185865 + " (expected)");
-//        System.out.println(verzinseParallel(250000,12,t0,t1,t2,t3));
-//
-//        System.out.println();
-//
-//        System.out.println(1002032.2085361965 + " (expected)");
-//        System.out.println(verzinseParallel(1000000,3,t0,t1,t2,t3));
-//        System.out.println(1003841.6126741471 + " (expected)");
-//        System.out.println(verzinseParallel(1000000,6,t0,t1,t2,t3));
-//        System.out.println(1005859.9190018587 + " (expected)");
-//        System.out.println(verzinseParallel(1000000,12,t0,t1,t2,t3));
-//    }
+    
 }
