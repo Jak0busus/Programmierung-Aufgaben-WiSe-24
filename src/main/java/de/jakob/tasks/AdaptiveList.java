@@ -72,12 +72,12 @@ public class AdaptiveList {
         AdaptiveList following = getNext();
         if (following != null && following.getValue() == value) {
             setNext(following.getNext()); //skips the value
-            moveBack(start, value, following); //cant move "next" to the start cause the old AdaptiveList object wouldn't show it
+            moveBack(start, value, following); //cant move "following" to the start cause the old AdaptiveList object wouldn't show it
                                         // changes first objects value to value and moves everything back by one
-                                        // "next" gets put to the end to complete the list
+                                        // "following" gets put to the end to complete the list
             return true;
         }
-        //next cant be null here because contains() already checked if the value is present
+        //"following" cant be null here because contains(...) already checked if the value is present
         return getValue() == value || following.containsTopPriority(start, value);
     }
 
@@ -87,7 +87,7 @@ public class AdaptiveList {
 
         if (element.getNext() == null) {
             element.setNext(last);
-            last.setValue(old);
+            last.setValue(old); //"last" could be left out by just creating a new AdaptiveList object > it would then be taken care of by the garbage collector
             last.setNext(null);
         } else {
             moveBack(element.getNext(), old, last); //moves every element of the list back
@@ -100,8 +100,9 @@ public class AdaptiveList {
         return getNext().contains(value);
     }
 
-    public String toString() {
-
+    public String toString() { //decided to use the one available loop for the toString() method to avoid having to create a helper method
+                                //  it would probably be smarter to replace the recursive contains(...) logic with a loop because of
+                                // small performance improvements and its frequent calls
         String string = "";
         AdaptiveList current = this;
 
