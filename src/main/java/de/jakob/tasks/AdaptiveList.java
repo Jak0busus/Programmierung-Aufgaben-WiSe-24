@@ -69,19 +69,19 @@ public class AdaptiveList {
     }
 
     private boolean containsTopPriority(AdaptiveList start, int value) {
-        AdaptiveList next = getNext();
-        if (next != null && next.getValue() == value) {
-            setNext(next.getNext()); //skips the value
-            iterate(start, value, next); //cant move "next" to the start cause the old AdaptiveList object wouldn't show it
+        AdaptiveList following = getNext();
+        if (following != null && following.getValue() == value) {
+            setNext(following.getNext()); //skips the value
+            moveBack(start, value, following); //cant move "next" to the start cause the old AdaptiveList object wouldn't show it
                                         // changes first objects value to value and moves everything back by one
                                         // "next" gets put to the end to complete the list
             return true;
         }
         //next cant be null here because contains() already checked if the value is present
-        return getValue() == value || next.containsTopPriority(start, value);
+        return getValue() == value || following.containsTopPriority(start, value);
     }
 
-    private static void iterate(AdaptiveList element, int value, AdaptiveList last) {
+    private static void moveBack(AdaptiveList element, int value, AdaptiveList last) {
         int old = element.getValue();
         element.setValue(value);
 
@@ -90,7 +90,7 @@ public class AdaptiveList {
             last.setValue(old);
             last.setNext(null);
         } else {
-            iterate(element.getNext(), old, last); //moves every element of the list back
+            moveBack(element.getNext(), old, last); //moves every element of the list back
         }
     }
 
