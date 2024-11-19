@@ -7,8 +7,7 @@ public class Tagesgeld {
     private double angebotszinsen;
     private double normalzinsen;
 
-    public Tagesgeld(int maxBetrag, int angebotsmonate, double angebotszinsen,
-                     double normalzinsen) {
+    public Tagesgeld(int maxBetrag, int angebotsmonate, double angebotszinsen, double normalzinsen) {
         this.maxBetrag = maxBetrag;
         this.angebotsmonate = angebotsmonate;
         this.angebotszinsen = angebotszinsen;
@@ -92,7 +91,7 @@ public class Tagesgeld {
     //Die Reihenfolge in der die verschiedenen Zinssätze angewendet werden macht mathematisch
     //  betrachtet keinen Unterschied, da das Ergebnis der Multiplikation der Zinssätze unabhängig
     //  von der Reihenfolge immer zum gleichen Ergebnis führt. Multiplikation ist nähmlich kommutativ.
-    //Die geringen Unterschiede, die sich bei der Berechnung dieser Werte innerhalb
+    //Die geringen Unterschiede, die bei der Berechnung dieser Werte innerhalb
     //  des Programs auftreten, lassen sich darauf zurückführen wie der Computer und der Compiler mit Gleitkommazahlen umgehen.
     //Dezimalzahlen können dort nur mit begrenzter Genauigkeit verarbeitet werden,
     //  weshalb durch unterschiedliche Rundungen unterschiedliche Ergebnisse zustande kommen.
@@ -126,9 +125,11 @@ public class Tagesgeld {
         if (tg.angebotsmonate <= 0) return verzinseParallel(init, monate, ts, pos + 1);
 
         double zuVerzinsen = Math.min(100000, Math.min(init, tg.maxBetrag));
+        //determines the amount that can be used for this account
         init -= zuVerzinsen;
 
         return tg.verzinse(zuVerzinsen, monate) + verzinseParallel(init, monate, ts, pos + 1);
+        //makes use of the verzinse method and calls itself again with subtracted init
     }
 
     //Diese Methode ist public, da wir von außerhalb der Klasse Tagesgeld die kürzeste Laufzeit
@@ -138,7 +139,9 @@ public class Tagesgeld {
     public static int verkuerzeUmKuerzesteLaufzeit(boolean verkuerze, Tagesgeld... ts) {
         if (ts == null) return Integer.MAX_VALUE;
         int smallest = verkuerzeUmKuerzesteLaufzeit(false, 0, Integer.MAX_VALUE, ts);
+        //determines the smallest value
         if (verkuerze) verkuerzeUmKuerzesteLaufzeit(true, 0, smallest, ts);
+        //in case of verkuerze the return value of the method isn't needed
 
         return smallest;
     }
@@ -232,7 +235,6 @@ public class Tagesgeld {
         System.out.println(verzinseParallel(250000, 6, t0, t1, t2, t3));
         System.out.println(255859.91900185865 + " (expected)");
         System.out.println(verzinseParallel(250000, 12, t0, t1, t2, t3));
-
 
         System.out.println();
 
