@@ -94,7 +94,8 @@ public class AdaptiveList {
 
         if (element.getNext() == null) {
             element.setNext(last);
-            last.setValue(old); //"last" could be left out by just creating a new AdaptiveList object > it would then be taken care of by the garbage collector
+            last.setValue(old); //"last" could be left out by just creating a new AdaptiveList object
+                                //it would then be taken care of by the garbage collector
             last.setNext(null);
         } else {
             moveBack(element.getNext(), last, old); //moves every element of the list back
