@@ -39,13 +39,8 @@ public class AdaptiveList {
     }
 
     public AdaptiveList append(int value) {
-        AdaptiveList toAppend = new AdaptiveList(value, null);
-
-        if (getNext() == null) {
-            setNext(toAppend);
-        } else {
-            getNext().append(value);
-        }
+        if (isLast()) setNext(singletonList(value));
+        else getNext().append(value);
         return this;
     }
 
@@ -71,7 +66,7 @@ public class AdaptiveList {
 
     public boolean contains(int value) {
         if (getValue() == value) return true;
-        if (getNext() == null) return false;
+        if (isLast()) return false;
         return getNext().contains(value);
     }
 
@@ -80,7 +75,7 @@ public class AdaptiveList {
         AdaptiveList current = this;
 
         while (current != null) {
-            string += current.getValue() + (current.getNext() != null ? ", " : "");
+            string += current.getValue() + (current.isLast() ? ", " : "");
             current = current.getNext();
         }
         return "[" + string + "]";
