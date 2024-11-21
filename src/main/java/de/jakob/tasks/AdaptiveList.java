@@ -56,7 +56,8 @@ public class AdaptiveList {
     }
 
     public boolean containsAdaptive(int value) {
-        if (!contains(value)) return false;
+        if (getValue() == value) return true;
+        if (isLast()) return false;
 
         if (getNext().getValue() == value) {
             getNext().setValue(getValue());
@@ -64,38 +65,38 @@ public class AdaptiveList {
             return true;
         }
 
-        if (getValue() == value) return true;
-
         return getNext().containsAdaptive(value);
     }
 
     public boolean containsTopPriority(int value) {
-        if (!contains(value)) return false;
-
         return containsTopPriority(this, value);
     }
 
     private boolean containsTopPriority(AdaptiveList start, int value) {
+        if(getValue() == value) return true;
+        if(isLast()) return false;
+
         AdaptiveList following = getNext();
-        if (following != null && following.getValue() == value) {
-            setNext(following.getNext()); //links the value to the one after "following"
+
+        if (following.getValue() == value) {
+            setNext(following.getNext()); //links the value to the one after "following" or null
             moveBack(start, following, value); //cant move "following" to the start cause the old AdaptiveList object wouldn't show it
             // changes first objects value to "value" and moves everything back by one
             // "following" gets put to the end to complete the list
             return true;
         }
-        //"following" cant be null here because contains(...) already checked if the value is present
-        return getValue() == value || following.containsTopPriority(start, value);
+
+        return following.containsTopPriority(start, value);
     }
 
     private static void moveBack(AdaptiveList element, AdaptiveList last, int value) {
         int old = element.getValue();
         element.setValue(value);
 
-        if (element.getNext() == null) {
+        if (element.isLast()) {
             element.setNext(last);
             last.setValue(old); //"last" could be left out by just creating a new AdaptiveList object
-                                //it would then be taken care of by the garbage collector
+            //it would then be taken care of by the garbage collector
             last.setNext(null);
         } else {
             moveBack(element.getNext(), last, old); //moves every element of the list back
