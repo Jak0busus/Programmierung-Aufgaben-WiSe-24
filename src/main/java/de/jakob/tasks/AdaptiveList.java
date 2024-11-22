@@ -81,6 +81,21 @@ public class AdaptiveList {
         return false;
     }
 
+    //Diese Methode ist eine alternative Implementierung von containsTopPriority.
+    //Aus der Aufgabenstellung ging nicht deutlich hervor, ob man nur den ersten mit dem gesuchten Wert austauschen soll oder alle Werte
+    //  bis auf den gesuchten in der vorherigen Reihenfolge behalten soll.
+    //Diese Methode tauscht die Werte nur aus, macht dafür aber gebrauch von der Schleife, für die es ansonsten keinen Nutzen gäbe.
+    public boolean containsTopPriority2(int value) {
+        AdaptiveList element = this;
+        while (!element.isLast() && element.getValue() != value) {
+            element = element.getNext();
+        }
+        if (element.getValue() != value) return false;
+        element.setValue(getValue());
+        setValue(value);
+        return true;
+    }
+
     //Diese Methode ist public, da wir sie von außerhalb der Klasse AdaptiveList aufrufen können wollen.
     //Sie ist nicht statisch, da sie direkt auf den Kontext des AdaptiveList-Objekts zurückgreift.
     public boolean contains(int value) {
@@ -89,16 +104,14 @@ public class AdaptiveList {
         return getNext().contains(value);
     }
 
-    //Diese Methode ist public, da wir sie von außerhalb der Klasse AdaptiveList aufrufen können wollen.
-    //Sie ist nicht statisch, da sie direkt auf den Kontext des AdaptiveList-Objekts zurückgreift.
-    //Zudem ist toString() eine vererbte Methode von der Klasse Object wodurch sie hier überschrieben wird und nichtmal static sein dürfte.
+    //Eigene Implementierung der toString Methode um sich die Werte ausgeben zu lassen
     @Override
-    public String toString() { //decided to use the one available loop for the toString() method to avoid having to create a helper method
+    public String toString() {
         String string = "";
         AdaptiveList current = this;
 
         while (current != null) {
-            string += current.getValue() + (current.isLast() ? ", " : "");
+            string += current.getValue() + (!current.isLast() ? ", " : "");
             current = current.getNext();
         }
         return "[" + string + "]";

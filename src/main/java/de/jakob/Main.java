@@ -160,7 +160,77 @@ public class Main {
                 "20, 21, 18, 19, 16, 17, 14, 15, 12, 13, 10, 11, 8, 9, 6, 7, 4, 5, 2, 3, 1, 0]");
         System.out.println("Actual:   " + list12);
 
+        new Main().adaptiveListTest();
+    }
+
+    private  void adaptiveListTest() {
+        System.out.println("\nTesting singletonList():");
+        AdaptiveList l1 = AdaptiveList.singletonList(5);
+        expectEq(null, l1.getNext());
+        expectEq(5, l1.getValue());
+        System.out.println("\nTesting isLast():");
+        expectEq(true, l1.isLast());
+        AdaptiveList l2 = new AdaptiveList(2, l1);
+        expectEq(false, l2.isLast());
+        System.out.println("\nTesting prepend():");
+        expectEq(1, AdaptiveList.singletonList(2).prepend(1).getValue());
+        expectEq(2, AdaptiveList.singletonList(2).prepend(1).getNext().getValue());
+        System.out.println("\nTesting append():");
+        expectEq(2, AdaptiveList.singletonList(2).append(1).getValue());
+        expectEq(1, AdaptiveList.singletonList(2).append(1).getNext().getValue());
+        System.out.println("\nTesting contains():");
+        assert l2.getValue() == 2; assert l1.getValue() == 5;
+        assert l2.getNext() == l1; assert l1.getNext() == null;
+        expectEq(true, l2.contains(5));
+        expectEq(true, l2.contains(2));
+        expectEq(false, l2.contains(3));
+        expectEq(true, l1.contains(5));
+        expectEq(false, l1.contains(2));
+        expectEq(2, l2.getValue());
+        expectEq(5, l1.getValue());
+        expectEq(l1, l2.getNext());
+        expectEq(null, l1.getNext());
+        System.out.println("\nTesting containsAdaptive():");
+        assert l2.getValue() == 2; assert l1.getValue() == 5;
+        assert l2.getNext() == l1; assert l1.getNext() == null;
+        expectEq(true, l2.containsAdaptive(5));
+        expectEq(5, l2.getValue());
+        expectEq(l1, l2.getNext());
+        expectEq(true, l2.containsAdaptive(2));
+        expectEq(2, l2.getValue());
+        expectEq(l1, l2.getNext());
+        expectEq(false, l2.containsAdaptive(3));
+        expectEq(2, l2.getValue());
+        expectEq(l1, l2.getNext());
+        AdaptiveList l3 = new AdaptiveList(3, l2);
+        expectEq(5, l1.getValue());
+        expectEq(3, l3.getValue());
+        expectEq(l1, l2.getNext());
+        expectEq(l2, l3.getNext());
+        expectEq(true, l3.alternateContainsTopPriority(5));
+        expectEq(3, l1.getValue());
+        expectEq(5, l3.getValue());
+        expectEq(l1, l2.getNext());
+        expectEq(l2, l3.getNext());
+        expectEq(false, l3.alternateContainsTopPriority(10));
+        expectEq(3, l1.getValue());
+        expectEq(5, l3.getValue());
+        expectEq(l1, l2.getNext());
+        expectEq(l2, l3.getNext());
+
+        System.out.println("\n Passed " + passedTestCount + "/" + totalTestCount + " Tests.");
     }
 
 
+    int totalTestCount = 0;
+    int passedTestCount = 0;
+    private <T> void expectEq(T expected, T actual) {
+        totalTestCount++;
+        if (expected == actual) {
+            passedTestCount++;
+            System.out.println("- [X] " + expected + " == " + actual);
+        } else {
+            System.err.println("- [ ] Expected " + expected + " but got " + actual);
+        }
+    }
 }
