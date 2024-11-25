@@ -207,17 +207,17 @@ public class Main {
         expectEq(3, l3.getValue());
         expectEq(l1, l2.getNext());
         expectEq(l2, l3.getNext());
-        expectEq(true, l3.alternateContainsTopPriority(5));
-        expectEq(3, l1.getValue());
+        expectEq(true, l3.containsTopPriority(5));
+        expectEq(2, l1.getValue());
         expectEq(5, l3.getValue());
         expectEq(l1, l2.getNext());
         expectEq(l2, l3.getNext());
-        expectEq(false, l3.alternateContainsTopPriority(10));
-        expectEq(3, l1.getValue());
+        expectEq(false, l3.containsTopPriority(10));
+        expectEq(2, l1.getValue());
         expectEq(5, l3.getValue());
         expectEq(l1, l2.getNext());
         expectEq(l2, l3.getNext());
-
+        System.out.println(l1 + " " + l2 + " " + l3);
         System.out.println("\n Passed " + passedTestCount + "/" + totalTestCount + " Tests.");
     }
 

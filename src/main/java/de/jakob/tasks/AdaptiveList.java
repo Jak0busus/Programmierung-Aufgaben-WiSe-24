@@ -26,30 +26,26 @@ public class AdaptiveList {
         this.next = next;
     }
 
-    //Diese Methode ist public, da wir sie von außerhalb der Klasse AdaptiveList aufrufen können wollen,
-    //  um Listen zu erstellen.
+    //Diese Methode ist public, da wir sie von außerhalb der Klasse AdaptiveList aufrufen können wollen.
     //Sie ist statisch, da sie nicht direkt auf den Kontext des AdaptiveList-Objekts zurückgreift,
     //  sondern ein neues AdaptiveList-Objekt zurückgibt.
     public static AdaptiveList singletonList(int value) {
         return new AdaptiveList(value, null);
     }
 
-    //Diese Methode ist public, da wir sie von außerhalb der Klasse AdaptiveList aufrufen können wollen,
-    //  um zu überprüfen, ob ein Objekt weitere Elemente hinter sich hat.
+    //Diese Methode ist public, da wir sie von außerhalb der Klasse AdaptiveList aufrufen können wollen.
     //Sie ist nicht statisch, da sie direkt auf den Kontext des AdaptiveList-Objekts zurückgreift.
     public boolean isLast() {
         return next == null;
     }
 
-    //Diese Methode ist public, da wir sie von außerhalb der Klasse AdaptiveList aufrufen können wollen,
-    //  um AdaptiveList-Objekte vor das Objekt, von dem diese Methode aus ausgeführt wurde, zu setzen.
+    //Diese Methode ist public, da wir sie von außerhalb der Klasse AdaptiveList aufrufen können wollen.
     //Sie ist nicht statisch, da sie direkt auf den Kontext des AdaptiveList-Objekts zurückgreift.
     public AdaptiveList prepend(int value) {
         return new AdaptiveList(value, this);
     }
 
-    //Diese Methode ist public, da wir sie von außerhalb der Klasse AdaptiveList aufrufen können wollen,
-    //  um AdaptiveList-Objekte hinter das letzte Objekt der AdaptiveList, von dem die Methode ausgeführt wurde, zu setzten.
+    //Diese Methode ist public, da wir sie von außerhalb der Klasse AdaptiveList aufrufen können wollen.
     //Sie ist nicht statisch, da sie direkt auf den Kontext des AdaptiveList-Objekts zurückgreift.
     public AdaptiveList append(int value) {
         if (isLast()) setNext(singletonList(value));
@@ -81,21 +77,6 @@ public class AdaptiveList {
         return false;
     }
 
-    //Diese Methode ist eine alternative Implementierung von containsTopPriority.
-    //Aus der Aufgabenstellung ging nicht deutlich hervor, ob man nur den ersten mit dem gesuchten Wert austauschen soll oder alle Werte
-    //  bis auf den gesuchten in der vorherigen Reihenfolge behalten soll.
-    //Diese Methode tauscht die Werte nur aus, macht dafür aber gebrauch von der Schleife, für die es ansonsten keinen Nutzen gäbe.
-    public boolean containsTopPriority2(int value) {
-        AdaptiveList element = this;
-        while (!element.isLast() && element.getValue() != value) {
-            element = element.getNext();
-        }
-        if (element.getValue() != value) return false;
-        element.setValue(getValue());
-        setValue(value);
-        return true;
-    }
-
     //Diese Methode ist public, da wir sie von außerhalb der Klasse AdaptiveList aufrufen können wollen.
     //Sie ist nicht statisch, da sie direkt auf den Kontext des AdaptiveList-Objekts zurückgreift.
     public boolean contains(int value) {
@@ -104,7 +85,7 @@ public class AdaptiveList {
         return getNext().contains(value);
     }
 
-    //Eigene Implementierung der toString Methode um sich die Werte ausgeben zu lassen
+    //Eigene Implementierung der toString Methode um sich gesamte Listen ausgeben zu lassen
     @Override
     public String toString() {
         String string = "";
