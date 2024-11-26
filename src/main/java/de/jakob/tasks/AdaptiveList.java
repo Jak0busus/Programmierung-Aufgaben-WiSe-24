@@ -10,18 +10,26 @@ public class AdaptiveList {
         this.next = next;
     }
 
+    //Diese Methode ist public, da wir sie von außerhalb der Klasse AdaptiveList aufrufen können wollen.
+    //Sie ist nicht statisch, da sie direkt auf den Kontext des AdaptiveList-Objekts zurückgreift.
     public int getValue() {
         return this.value;
     }
 
+    //Diese Methode ist public, da wir sie von außerhalb der Klasse AdaptiveList aufrufen können wollen.
+    //Sie ist nicht statisch, da sie direkt auf den Kontext des AdaptiveList-Objekts zurückgreift.
     public AdaptiveList getNext() {
         return this.next;
     }
 
+    //Diese Methode ist public, da wir sie von außerhalb der Klasse AdaptiveList aufrufen können wollen.
+    //Sie ist nicht statisch, da sie direkt auf den Kontext des AdaptiveList-Objekts zurückgreift.
     public void setValue(int value) {
         this.value = value;
     }
 
+    //Diese Methode ist public, da wir sie von außerhalb der Klasse AdaptiveList aufrufen können wollen.
+    //Sie ist nicht statisch, da sie direkt auf den Kontext des AdaptiveList-Objekts zurückgreift.
     public void setNext(AdaptiveList next) {
         this.next = next;
     }
@@ -86,6 +94,7 @@ public class AdaptiveList {
     }
 
     //Eigene Implementierung der toString Methode um sich gesamte Listen ausgeben zu lassen
+    //gehört nicht direkt zur Aufgabe
     @Override
     public String toString() {
         String string = "";
@@ -97,5 +106,6 @@ public class AdaptiveList {
         }
         return "[" + string + "]";
     }
+
 
 }
