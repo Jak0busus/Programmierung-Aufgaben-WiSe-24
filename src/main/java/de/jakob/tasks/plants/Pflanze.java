@@ -1,9 +1,9 @@
 package de.jakob.tasks.plants;
 
-public sealed class Pflanze permits BlauerEisenhut, Salbei, Rosengewaechs{
+public sealed class Pflanze permits BlauerEisenhut, Salbei, Rosengewaechs {
 
     private final int maxLaenge;
-    private final  int wachstum;
+    private final int wachstum;
     private int laenge;
 
     public Pflanze(int maxLaenge, int wachstum, int laenge) {
@@ -26,5 +26,15 @@ public sealed class Pflanze permits BlauerEisenhut, Salbei, Rosengewaechs{
 
     public void setLaenge(int laenge) {
         this.laenge = laenge;
+    }
+
+    public void waessern() {
+        setLaenge(getLaenge() < getMaxLaenge() ?
+                getLaenge() + getWachstum() :
+                getLaenge());
+    }
+
+    public void schneiden(int x){
+        setLaenge(Math.max(getLaenge() - x, 1));
     }
 }

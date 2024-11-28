@@ -12,4 +12,16 @@ public sealed class Rosengewaechs extends Pflanze permits Lorbeerkirsche, Himbee
     public int getVerbreitung() {
         return verbreitung;
     }
+
+    @Override
+    public void waessern() {
+        setLaenge(getLaenge() < getMaxLaenge() ?
+                getLaenge() + getWachstum() * getVerbreitung() :
+                getLaenge());
+    }
+
+    @Override
+    public void schneiden(int x) {
+        setLaenge(1);
+    }
 }

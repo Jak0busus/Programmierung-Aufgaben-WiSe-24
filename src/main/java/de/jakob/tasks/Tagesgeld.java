@@ -103,7 +103,7 @@ public class Tagesgeld {
         if (monate == 0) return init;
 
         double vorher = optimaleVerzinsung(init, nm, monate - 1);
-        return monatsverzinsung(vorher, nm + angebotsmonate > monate);
+        return monatsverzinsung(vorher, monate > nm);
     }
 
     //Diese Methode ist public, da wir von außerhalb der Klasse Tagesgeld mehrere Angebote parallel
