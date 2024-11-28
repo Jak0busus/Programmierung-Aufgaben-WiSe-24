@@ -1,7 +1,25 @@
-package de.jakob.tasks.plants;
+package de.jakob.tasks.gartenarbeit;
 
+/**
+ * The {@code Feld} class contains logic for selecting and manipulating plants based on pairs of plants.
+ * It demonstrates polymorphic behavior and pattern matching with the {@code PflanzenPaar} class.
+ */
 public class Feld {
 
+    /**
+     * Determines which plant to select from a given pair based on specific criteria.
+     *
+     * <ul>
+     *     <li>If the pair contains a {@code Rosengewaechs}, the first such plant is chosen, and its length is set to its maximum.
+     *         If the plant is a {@code Himbeere}, it is trimmed after selection.</li>
+     *     <li>If the pair contains a {@code Salbei} and a {@code BlauerEisenhut},
+     *         the selection depends on the length of the {@code Salbei}: if it is at least 5, the {@code BlauerEisenhut} is chosen; otherwise, the {@code Salbei} is selected.</li>
+     *     <li>In all other cases, the first plant in the pair is selected by default.</li>
+     * </ul>
+     *
+     * @param pair a pair of plants ({@code PflanzenPaar}) to evaluate
+     * @return the selected plant based on the given criteria
+     */
     public static Pflanze auswahl(PflanzenPaar pair) {
 
         switch (pair) {
@@ -11,9 +29,7 @@ public class Feld {
                         ? (Rosengewaechs) pair.plantA()
                         : (Rosengewaechs) pair.plantB();
 
-                while (rosengewaechs.getLaenge() < rosengewaechs.getMaxLaenge()) {
-                    rosengewaechs.setLaenge(rosengewaechs.getLaenge() + 1);
-                }
+                rosengewaechs.setLaenge(rosengewaechs.getMaxLaenge());
 
                 if (rosengewaechs instanceof Himbeere himbeere) {
                     himbeere.schneiden(1);
@@ -39,6 +55,11 @@ public class Feld {
         }
     }
 
+    /**
+     * Main method to demonstrate the functionality of the {@code auswahl} method with various plant pairs.
+     *
+     * @param args command-line arguments (not used)
+     */
     public static void main(String[] args) {
         System.out.println("Start");
         Himbeere himbeere = new Himbeere();
@@ -65,5 +86,4 @@ public class Feld {
         System.out.println("Auswahl:" + auswahl(pair4) + ", Laenge:" + auswahl(pair4).getLaenge());
         System.out.println("Auswahl:" + auswahl(pair5) + ", Laenge:" + auswahl(pair5).getLaenge());
     }
-
 }

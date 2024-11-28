@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"Alle Packages","u":"allpackages-index.html"},{"l":"de.jakob"},{"l":"de.jakob.codescape"},{"l":"de.jakob.tasks"},{"l":"de.jakob.tasks.gartenarbeit"},{"l":"de.jakob.util"}];updateSearchResults();
