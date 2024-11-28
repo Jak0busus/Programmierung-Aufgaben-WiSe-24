@@ -80,6 +80,6 @@ public sealed class Pflanze permits BlauerEisenhut, Salbei, Rosengewaechs {
      * @param x the amount to reduce the plant's length by
      */
     public void schneiden(int x) {
-        setLaenge(Math.max(getLaenge() - x, 1));
+        setLaenge(Math.max(getLaenge() - x, 0));
     }
 }
