@@ -26,7 +26,6 @@ public sealed class Pflanze permits BlauerEisenhut, Salbei, Rosengewaechs {
         return laenge;
     }
 
-
     public void waessern() {
         laenge = Math.min(getLaenge() + getWachstum(), getMaxLaenge());
     }
