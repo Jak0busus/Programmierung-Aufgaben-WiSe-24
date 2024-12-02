@@ -1,10 +1,5 @@
 package de.jakob.tasks.gartenarbeit;
 
-/**
- * The {@code Salbei} class represents a specific type of plant.
- * It is characterized by a modest maximum length and a consistent growth rate.
- * This class extends {@code Pflanze} without adding new behaviors.
- */
 public final class Salbei extends Pflanze {
 
     /**

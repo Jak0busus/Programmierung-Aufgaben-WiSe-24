@@ -1,10 +1,5 @@
 package de.jakob.tasks.gartenarbeit;
 
-/**
- * The {@code BlauerEisenhut} class represents a specific type of plant.
- * It is known for its extremely high potential maximum length and minimal growth rate.
- * This class extends {@code Pflanze} without introducing additional behavior.
- */
 public final class BlauerEisenhut extends Pflanze {
 
     /**
@@ -17,5 +12,10 @@ public final class BlauerEisenhut extends Pflanze {
      */
     public BlauerEisenhut() {
         super(Integer.MAX_VALUE, 1, 1);
+    }
+
+    @Override
+    public void schneiden(int x) {
+        laenge = 1;
     }
 }

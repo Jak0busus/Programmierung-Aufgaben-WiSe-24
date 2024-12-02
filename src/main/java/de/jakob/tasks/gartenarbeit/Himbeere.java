@@ -1,9 +1,5 @@
 package de.jakob.tasks.gartenarbeit;
 
-/**
- * The {@code Himbeere} class represents a specific type of plant in the rose family.
- * It extends {@code Rosengewaechs} and customizes its behavior, particularly in the way it is trimmed.
- */
 public final class Himbeere extends Rosengewaechs {
 
     /**
@@ -19,14 +15,8 @@ public final class Himbeere extends Rosengewaechs {
         super(10, 1, 2, 1);
     }
 
-    /**
-     * Trims the {@code Himbeere} by reducing its length by the specified amount.
-     * The length will not fall below 0 as a result of trimming.
-     *
-     * @param x the amount to trim from the plant's current length
-     */
     @Override
     public void schneiden(int x) {
-        setLaenge(Math.max(getLaenge() - x, 0));
+        laenge = Math.max(getLaenge() - x, 0);
     }
 }

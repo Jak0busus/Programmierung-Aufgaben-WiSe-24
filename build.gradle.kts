@@ -18,10 +18,6 @@ tasks.test {
     useJUnitPlatform()
 }
 
-tasks.named<Javadoc>("javadoc") {
-    destinationDir = file("$rootDir/docs")
-}
-
 tasks.withType<JavaCompile> {
     options.compilerArgs.add("--enable-preview")
 }
