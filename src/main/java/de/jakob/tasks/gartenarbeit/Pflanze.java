@@ -6,7 +6,9 @@ public sealed class Pflanze permits BlauerEisenhut, Salbei, Rosengewaechs {
 
     private final int wachstum;
 
-    protected int laenge;
+    protected int laenge; //protected so no setter is needed
+    //private with using a setter to control value changes would be more safe
+    //"nur innerhalb der Hierarchie" trifft zudem auch auf protected Variablen zu
 
     public Pflanze(int maxLaenge, int wachstum, int laenge) {
         this.maxLaenge = maxLaenge;
@@ -25,7 +27,6 @@ public sealed class Pflanze permits BlauerEisenhut, Salbei, Rosengewaechs {
     public int getLaenge() {
         return laenge;
     }
-
 
     public void waessern() {
         laenge = Math.min(getLaenge() + getWachstum(), getMaxLaenge());

@@ -20,6 +20,7 @@ public sealed class Rosengewaechs extends Pflanze permits Lorbeerkirsche, Himbee
 
     @Override
     public void schneiden(int x) {
+        //super.schneiden(getLaenge() - 1); if laenge was private but then himbeeres schneiden method would not work
         laenge = 1;
     }
 }

@@ -7,7 +7,7 @@ public class Feld {
 
         switch (pair) {
 
-            case PflanzenPaar(Rosengewaechs _, _), PflanzenPaar(_, Rosengewaechs _) -> {
+            case PflanzenPaar(Rosengewaechs _, _), PflanzenPaar(_, Rosengewaechs _) -> { //both Rosengewaechs cases
                 Rosengewaechs rosengewaechs = pair.plantA() instanceof Rosengewaechs
                         ? (Rosengewaechs) pair.plantA()
                         : (Rosengewaechs) pair.plantB();
@@ -21,7 +21,7 @@ public class Feld {
                 return rosengewaechs;
             }
 
-            case PflanzenPaar(Salbei _, BlauerEisenhut _), PflanzenPaar(BlauerEisenhut _, Salbei _) -> {
+            case PflanzenPaar(Salbei _, BlauerEisenhut _), PflanzenPaar(BlauerEisenhut _, Salbei _) -> { //both possible Salbei and BlauerEisenhut cases
                 Salbei salbei = pair.plantA() instanceof Salbei
                         ? (Salbei) pair.plantA()
                         : (Salbei) pair.plantB();
@@ -32,7 +32,7 @@ public class Feld {
                 return salbei.getLaenge() >= 5 ? blauerEisenhut : salbei;
             }
 
-            default -> {
+            default -> { //everything else
                 return pair.plantA();
             }
         }
